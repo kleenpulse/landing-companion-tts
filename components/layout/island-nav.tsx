@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -13,7 +14,7 @@ import {
 } from "motion/react";
 import type { Variants } from "motion/react";
 import { CTAButton } from "../ui/cta-button";
-import { LINKS, NAV_LINKS } from "../../lib/content";
+import { LINKS, NAV_BY_ROUTE, NAV_LINKS } from "../../lib/content";
 import { Download } from "./icons";
 import { getLenis, scrollToHash } from "../../lib/lenis-store";
 import { ThemeToggle } from "./theme-toggle";
@@ -53,13 +54,38 @@ const itemVariants: Variants = {
 */
 export function IslandNav() {
 	const [open, setOpen] = useState(false);
+	const [hidden, setHidden] = useState(false);
 	const burgerRef = useRef<HTMLButtonElement>(null);
 	/*
-		Section links point at real routes ("/#features"), so they work from any
-		page. Only intercept for Lenis scrolling when we are already on "/" —
-		otherwise preventDefault would swallow a navigation that has to happen.
+		Section links point at real routes ("/setup#install"), so they work from
+		any page. Only intercept for Lenis scrolling when the sections live on
+		the current page — otherwise preventDefault would swallow a navigation
+		that has to happen. Routes without their own registry entry fall back to
+		the landing set, which then navigates for real.
 	*/
-	const isHome = usePathname() === "/";
+	const pathname = usePathname();
+	const isHome = pathname === "/";
+	const ownsLinks = pathname in NAV_BY_ROUTE;
+	const links = NAV_BY_ROUTE[pathname] ?? NAV_LINKS;
+	const base = isHome || !ownsLinks ? "" : pathname;
+
+	/*
+		Hide on scroll down, reveal on scroll up. Lenis drives real window
+		scrolling, so plain scroll events see its position. Small dead zone
+		filters trackpad jitter; near the top the island always shows.
+	*/
+	useEffect(() => {
+		let lastY = window.scrollY;
+		const onScroll = () => {
+			const y = window.scrollY;
+			const delta = y - lastY;
+			if (Math.abs(delta) < 4) return;
+			setHidden(delta > 0 && y > 96);
+			lastY = y;
+		};
+		window.addEventListener("scroll", onScroll, { passive: true });
+		return () => window.removeEventListener("scroll", onScroll);
+	}, []);
 
 	useEffect(() => {
 		if (!open) return;
@@ -84,7 +110,7 @@ export function IslandNav() {
 
 	const go = (hash: string) => (e: MouseEvent) => {
 		setOpen(false);
-		if (!isHome) return;
+		if (!ownsLinks) return;
 		e.preventDefault();
 		requestAnimationFrame(() =>
 			requestAnimationFrame(() => scrollToHash(hash)),
@@ -93,13 +119,14 @@ export function IslandNav() {
 
 	const goTop = (e: MouseEvent) => {
 		setOpen(false);
-		if (!isHome) return;
+		/* Off the landing page and already at the top: let the Link go home. */
+		if (!isHome && window.scrollY <= 8) return;
 		e.preventDefault();
 		requestAnimationFrame(() =>
 			requestAnimationFrame(() => {
 				const lenis = getLenis();
 				if (lenis) lenis.scrollTo(0);
-				else window.scrollTo({ top: 0 });
+				else window.scrollTo({ top: 0, behavior: "smooth" });
 			}),
 		);
 	};
@@ -107,7 +134,13 @@ export function IslandNav() {
 	return (
 		<LazyMotion features={domAnimation} strict>
 			<MotionConfig reducedMotion="user">
-				<header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
+				<header
+					className={`pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center transition-transform duration-500 ease-glass ${
+						hidden && !open
+							? "-translate-y-[calc(100%+0.5rem)]"
+							: "translate-y-0"
+					}`}
+				>
 					<nav
 						aria-label="Main"
 						className="glass-liquid justify-between glass-ring pointer-events-auto mx-4 mt-6 flex w-full sm:w-max items-center gap-1 rounded-full p-2"
@@ -117,21 +150,25 @@ export function IslandNav() {
 							onClick={goTop}
 							className="flex items-center gap-2 rounded-full px-3 py-1.5"
 						>
-							<span
+							<Image
+								src="/companion-tts.png"
+								alt=""
 								aria-hidden
-								className="grainient block h-2 w-2 rounded-full"
+								width={24}
+								height={24}
+								className="h-6 w-6 rounded-full"
 							/>
 							<span className="font-display text-sm font-medium tracking-tight">
 								Companion TTS
 							</span>
 						</Link>
 						<div className="hidden items-center md:flex">
-							{NAV_LINKS.map((link) => (
+							{links.map((link) => (
 								<Link
 									key={link.hash}
-									href={`/${link.hash}`}
+									href={base ? `${base}${link.hash}` : `/${link.hash}`}
 									onClick={go(link.hash)}
-									className="rounded-full px-3 py-1.5 text-sm text-ink-dim transition-colors duration-300 ease-glass hover:bg-ink/5 hover:text-ink"
+									className="rounded-full font-medium px-3 py-1.5 text-sm text-ink-dim transition-colors duration-300 ease-glass hover:bg-ink/5 hover:text-ink"
 								>
 									{link.label}
 								</Link>
@@ -188,11 +225,11 @@ export function IslandNav() {
 							exit="exit"
 							className="glass-frost-deep fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 md:hidden"
 						>
-							{NAV_LINKS.map((link) => (
+							{links.map((link) => (
 								<m.a
 									key={link.hash}
 									variants={itemVariants}
-									href={`/${link.hash}`}
+									href={base ? `${base}${link.hash}` : `/${link.hash}`}
 									onClick={go(link.hash)}
 									className="font-display text-4xl font-medium text-ink"
 								>

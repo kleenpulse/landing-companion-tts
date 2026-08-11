@@ -53,6 +53,21 @@ export const NAV_LINKS = [
 	{ label: "Open source", hash: "#open-source" },
 ] as const;
 
+export const SETUP_NAV_LINKS = [
+	{ label: "Install", hash: "#install" },
+	{ label: "How it works", hash: "#how-it-works" },
+	{ label: "Questions", hash: "#questions" },
+] as const;
+
+/* Route → section links the island nav shows there. */
+export const NAV_BY_ROUTE: Record<
+	string,
+	ReadonlyArray<{ label: string; hash: string }>
+> = {
+	"/": NAV_LINKS,
+	"/setup": SETUP_NAV_LINKS,
+};
+
 /* Exact spoken strings from src/speech/attention.ts */
 export const ALERT_LINES = [
 	"Claude needs your approval to run a command.",

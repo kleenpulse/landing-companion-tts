@@ -4,13 +4,13 @@
 
 :root {
 	color-scheme: light;
-	--ground: #eceef1;
+	--ground: #f6f9fd;
 	--surface: #eceef1;
 	--panel: #f6f7f8;
 	--raised: #e3e7ea;
 	--hairline: #d0d5da;
 	--ink: #191d21;
-	--ink-dim: color-mix(in srgb, #191d21 72%, #f6f7f8);
+	--ink-dim: color-mix(in srgb, #0f1113 72%, #f6f7f8);
 	--accent: #7e22ce;
 	--accent-hover: color-mix(in srgb, #7e22ce 85%, #191d21);
 	--on-accent: #ffffff;

@@ -13,7 +13,7 @@ export function PlusGridSection() {
 			<PlusGrid
 				className="absolute inset-0"
 				config={{
-					color: resolvedTheme === "light" ? "#000000" : "#ffffff",
+					color: resolvedTheme === "light" ? "#7e22ce" : "#ffffff",
 					baseOpacity: 0.4,
 					scrollSensitivity: 0.9,
 				}}

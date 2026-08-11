@@ -7,9 +7,9 @@ import { IslandNav } from "@/components/layout/island-nav";
 import { CTAButton } from "@/components/ui/cta-button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { GlassCard } from "@/components/ui/glass-card";
+import { FaqDeck } from "@/components/sections/faq-deck";
 import { FaqStructuredData } from "@/components/seo/structured-data";
 import {
-	FAQ,
 	HOW_IT_WORKS,
 	LINKS,
 	META,
@@ -67,6 +67,7 @@ export default function SetupPage() {
 				</section>
 
 				<section
+					id="install"
 					aria-labelledby="steps-head"
 					className="px-4 py-16 md:px-8 md:py-24"
 				>
@@ -98,6 +99,7 @@ export default function SetupPage() {
 				</section>
 
 				<section
+					id="how-it-works"
 					aria-labelledby="how-head"
 					className="px-4 py-16 md:px-8 md:py-24"
 				>
@@ -125,6 +127,7 @@ export default function SetupPage() {
 				</section>
 
 				<section
+					id="questions"
 					aria-labelledby="faq-head"
 					className="px-4 py-16 md:px-8 md:py-24"
 				>
@@ -137,18 +140,9 @@ export default function SetupPage() {
 								Questions
 							</h2>
 						</Reveal>
-						<dl className="mt-10 flex flex-col gap-4">
-							{FAQ.map((item, i) => (
-								<Reveal key={item.q} delay={i * 60}>
-									<GlassCard variant="still" innerClassName="p-8">
-										<dt className="font-display text-lg font-medium tracking-tight md:text-xl">
-											{item.q}
-										</dt>
-										<dd className="mt-3 text-ink-dim">{item.a}</dd>
-									</GlassCard>
-								</Reveal>
-							))}
-						</dl>
+						<Reveal delay={80}>
+							<FaqDeck />
+						</Reveal>
 					</div>
 				</section>
 

@@ -1,8 +1,3 @@
-/*
-	Fixed mesh-orb field in the product's grainient hues, vignetted back to the
-	ground color, plus the single anti-banding grain layer. Orbs are pre-faded
-	radial gradients — cheaper than filter blur and band-free under grain.
-*/
 export function Backdrop() {
 	return (
 		<>
