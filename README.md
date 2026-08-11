@@ -6,7 +6,8 @@ desktop companion that speaks Claude Code's output aloud.
 **[→ landing-companion-tts.vercel.app](https://landing-companion-tts.vercel.app)**
 
 > **Hear Claude Code work.**
-> A floating companion that speaks agent output aloud and pings you when it needs you.
+> A floating Windows companion that reads Claude Code's output aloud with neural
+> text-to-speech — and pings you when it needs you.
 
 **Main app repo: [kleenpulse/companion-tts](https://github.com/kleenpulse/companion-tts)**
 · [Releases](https://github.com/kleenpulse/companion-tts/releases)

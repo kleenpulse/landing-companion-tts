@@ -122,14 +122,21 @@ function BentoVisual({ item }: { item: BentoItem }) {
 
 export function BentoGrid() {
 	return (
-		<section id="features" className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40">
+		<section
+			id="features"
+			aria-labelledby="features-head"
+			className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40"
+		>
 			<div className="mx-auto w-full max-w-6xl">
 				<div className="max-w-2xl">
 					<Reveal>
 						<Eyebrow>Everything in the dial</Eyebrow>
 					</Reveal>
 					<Reveal delay={100}>
-						<h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl">
+						<h2
+							id="features-head"
+							className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl"
+						>
 							Small window. Full transport.
 						</h2>
 					</Reveal>

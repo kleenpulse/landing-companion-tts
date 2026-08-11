@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Space_Mono } from "next/font/google";
-import { LINKS } from "@/lib/content";
+import { LINKS, SEO } from "@/lib/content";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { SmoothScroll } from "@/components/effects/smooth-scroll";
 import { Scrollbar } from "@/components/effects/scrollbar";
@@ -30,22 +30,36 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
 	metadataBase: new URL(LINKS.site),
-	title: "Companion TTS — Hear Claude Code work",
-	description:
-		"Hear Claude Code work. A floating companion that speaks agent output aloud and pings you when it needs you.",
+	title: SEO.title,
+	description: SEO.description,
+	applicationName: "Companion TTS",
+	keywords: [
+		"Claude Code text to speech",
+		"Claude Code TTS",
+		"Claude Code voice",
+		"text to speech Windows",
+		"Piper TTS",
+		"ElevenLabs",
+		"AI coding agent",
+		"developer tools",
+	],
+	authors: [{ name: "kleenpulse", url: LINKS.repo }],
+	creator: "kleenpulse",
 	alternates: {
 		canonical: "/",
 	},
 	openGraph: {
-		title: "Companion TTS — Hear Claude Code work",
-		description:
-			"A floating companion that speaks agent output aloud and pings you when it needs you.",
+		title: SEO.ogTitle,
+		description: SEO.ogDescription,
 		type: "website",
 		siteName: "Companion TTS",
 		url: "/",
+		locale: "en_US",
 	},
 	twitter: {
-		card: "summary",
+		card: "summary_large_image",
+		title: SEO.ogTitle,
+		description: SEO.ogDescription,
 	},
 };
 
@@ -61,6 +75,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 			className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full antialiased`}
 		>
 			<body className="min-h-full flex flex-col bg-ground text-ink font-sans">
+				<a
+					href="#main-content"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-full focus:border focus:border-hairline focus:bg-surface focus:px-5 focus:py-2.5 focus:text-sm focus:text-ink"
+				>
+					Skip to content
+				</a>
 				<ThemeProvider>
 					<SmoothScroll />
 					<Scrollbar />

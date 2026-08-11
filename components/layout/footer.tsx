@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LINKS } from "../../lib/content";
 
 export function Footer() {
@@ -11,6 +12,12 @@ export function Footer() {
 					</p>
 				</div>
 				<nav aria-label="Footer" className="flex items-center gap-5">
+					<Link
+						className="transition-colors duration-300 ease-glass hover:text-ink"
+						href="/setup"
+					>
+						Setup guide
+					</Link>
 					<a
 						className="transition-colors duration-300 ease-glass hover:text-ink"
 						href={LINKS.repo}

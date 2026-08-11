@@ -3,8 +3,19 @@
 	and every claim is verified against the companion-tts codebase. Zero invention.
 */
 
+/* Single source for the canonical origin — swap the domain in one place. */
+export const SITE_URL =
+	process.env.NEXT_PUBLIC_SITE_URL ?? "https://landing-companion-tts.vercel.app";
+
+/*
+	Sitemap <lastmod>. A literal, not new Date(): under cacheComponents a
+	request-time date forces sitemap.xml to render dynamically, and lastmod
+	should track content changes anyway, not deploys. Bump when copy changes.
+*/
+export const CONTENT_UPDATED = "2026-08-11";
+
 export const LINKS = {
-	site: "https://landing-companion-tts.vercel.app",
+	site: SITE_URL,
 	repo: "https://github.com/kleenpulse/companion-tts",
 	releases: "https://github.com/kleenpulse/companion-tts/releases",
 	license: "https://github.com/kleenpulse/companion-tts/blob/main/LICENSE",
@@ -13,7 +24,18 @@ export const LINKS = {
 
 export const TAGLINE = {
 	head: "Hear Claude Code work.",
-	sub: "A floating companion that speaks agent output aloud and pings you when it needs you.",
+	sub: "A floating Windows companion that reads Claude Code's output aloud with neural text-to-speech — and pings you when it needs you.",
+} as const;
+
+/* Search-facing strings. Deliberately spell out "text-to-speech": the brand
+   abbreviates it, so the category term appears nowhere else on the page. */
+export const SEO = {
+	title: "Companion TTS — Text-to-Speech for Claude Code on Windows",
+	description:
+		"Hear Claude Code work. Companion TTS is a free, open-source Windows app that speaks Claude Code's output aloud — ElevenLabs, Mistral, or offline Piper voices.",
+	ogTitle: "Companion TTS — Text-to-Speech for Claude Code",
+	ogDescription:
+		"A floating Windows companion that reads Claude Code's output aloud and pings you when it needs you. Free, open source, works with no API key.",
 } as const;
 
 export const META = {
@@ -150,6 +172,73 @@ export const HOTKEYS = [
 ] as const;
 
 export const OSS = {
+	head: "GPL-3.0. Tauri v2, not Electron.",
 	line: "GPL-3.0. Built with Tauri v2, Rust, and React — running on the system WebView2, a tiny footprint, not an Electron app. Windows-only for now.",
 	chips: ["TAURI V2", "RUST", "REACT", "GPL-3.0", "WEBVIEW2"],
 } as const;
+
+/* Distinct from TAGLINE.head — the closing h2 previously duplicated the h1
+   verbatim, spending both prominent headings on the same string. */
+export const FINAL_CTA = {
+	head: "Free text-to-speech for Claude Code.",
+	sub: "Free and open source. Works with no API key at all.",
+} as const;
+
+/* /setup — every step verified against the product README and src-tauri. */
+export const SETUP_SEO = {
+	title: "Setup — Companion TTS for Claude Code on Windows",
+	description:
+		"Install Companion TTS and hear Claude Code speak in three steps: run the Windows installer, pick a voice (no API key required), and enable the Notification hook for spoken alerts.",
+} as const;
+
+export const SETUP_STEPS = [
+	{
+		n: "01",
+		title: "Install on Windows",
+		body: "Download the installer from GitHub Releases and run it. Windows only — there is no macOS or Linux build yet.",
+	},
+	{
+		n: "02",
+		title: "Pick a voice",
+		body: "On first launch, add an ElevenLabs or Mistral API key in settings — or skip keys entirely and use a Piper neural voice, downloaded in-app, or the built-in Windows voice. The free path needs no account.",
+	},
+	{
+		n: "03",
+		title: "Turn on attention alerts",
+		body: "Companion TTS installs a Claude Code Notification hook so it can speak up the moment a session blocks on you — an approval prompt, a question, or a plan awaiting review.",
+	},
+] as const;
+
+export const HOW_IT_WORKS = [
+	"Rust watches ~/.claude/projects/**/*.jsonl — the transcript files Claude Code writes as it works — and tails them incrementally, so noise never reaches the UI.",
+	"Claude's messages become speakable phrases: paths shrink to basenames, code blocks summarize, markdown melts away. They queue and play through the provider chain in order.",
+	"Synthesis happens in Rust, so API keys stay native-side and never enter a webview.",
+	"Pre-existing sessions are never narrated. The tailer primes at end-of-file, so it only speaks what happens after it starts watching.",
+] as const;
+
+export const FAQ = [
+	{
+		q: "What does the Notification hook change?",
+		a: "It adds a hook entry to ~/.claude/settings.json that appends notification events to a local file the app tails. Your original settings are backed up once to settings.json.companion-bak, and nothing else is touched.",
+	},
+	{
+		q: "Does it send my transcripts anywhere?",
+		a: "Only the text being spoken goes to the TTS provider you configured. With a Piper voice or the Windows voice, nothing leaves your machine at all.",
+	},
+	{
+		q: "Do I need an API key?",
+		a: "No. Piper runs fully offline as in-process ONNX inference, and the Windows on-device voice is always available. API keys are only needed for the ElevenLabs and Mistral cloud voices.",
+	},
+	{
+		q: "Does it work on macOS or Linux?",
+		a: "Not yet. Companion TTS is Windows-only for now — it runs on the system WebView2 via Tauri v2.",
+	},
+	{
+		q: "Which languages are supported?",
+		a: "English only. The six Piper voices cover en-GB and en-US.",
+	},
+	{
+		q: "Why GPL-3.0?",
+		a: "The offline Piper provider compiles in espeak-ng (GPL-3.0) for phonemization, which makes distributed builds a GPL combined work.",
+	},
+] as const;

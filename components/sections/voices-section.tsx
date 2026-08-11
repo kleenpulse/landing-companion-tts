@@ -6,14 +6,21 @@ import { Reveal } from "../effects/reveal";
 
 export function VoicesSection() {
 	return (
-		<section id="voices" className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40">
+		<section
+			id="voices"
+			aria-labelledby="voices-head"
+			className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40"
+		>
 			<div className="mx-auto w-full max-w-6xl">
 				<div className="mx-auto max-w-2xl text-center">
 					<Reveal>
 						<Eyebrow>Piper voices</Eyebrow>
 					</Reveal>
 					<Reveal delay={100}>
-						<h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl">
+						<h2
+							id="voices-head"
+							className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl"
+						>
 							Six neural voices. Downloaded in-app.
 						</h2>
 					</Reveal>

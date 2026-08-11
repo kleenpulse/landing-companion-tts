@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
 	AnimatePresence,
 	LazyMotion,
@@ -52,6 +54,12 @@ const itemVariants: Variants = {
 export function IslandNav() {
 	const [open, setOpen] = useState(false);
 	const burgerRef = useRef<HTMLButtonElement>(null);
+	/*
+		Section links point at real routes ("/#features"), so they work from any
+		page. Only intercept for Lenis scrolling when we are already on "/" —
+		otherwise preventDefault would swallow a navigation that has to happen.
+	*/
+	const isHome = usePathname() === "/";
 
 	useEffect(() => {
 		if (!open) return;
@@ -75,16 +83,18 @@ export function IslandNav() {
 	}, [open]);
 
 	const go = (hash: string) => (e: MouseEvent) => {
-		e.preventDefault();
 		setOpen(false);
+		if (!isHome) return;
+		e.preventDefault();
 		requestAnimationFrame(() =>
 			requestAnimationFrame(() => scrollToHash(hash)),
 		);
 	};
 
 	const goTop = (e: MouseEvent) => {
-		e.preventDefault();
 		setOpen(false);
+		if (!isHome) return;
+		e.preventDefault();
 		requestAnimationFrame(() =>
 			requestAnimationFrame(() => {
 				const lenis = getLenis();
@@ -102,8 +112,8 @@ export function IslandNav() {
 						aria-label="Main"
 						className="glass-liquid justify-between glass-ring pointer-events-auto mx-4 mt-6 flex w-full sm:w-max items-center gap-1 rounded-full p-2"
 					>
-						<a
-							href="#"
+						<Link
+							href="/"
 							onClick={goTop}
 							className="flex items-center gap-2 rounded-full px-3 py-1.5"
 						>
@@ -114,17 +124,17 @@ export function IslandNav() {
 							<span className="font-display text-sm font-medium tracking-tight">
 								Companion TTS
 							</span>
-						</a>
+						</Link>
 						<div className="hidden items-center md:flex">
 							{NAV_LINKS.map((link) => (
-								<a
+								<Link
 									key={link.hash}
-									href={link.hash}
+									href={`/${link.hash}`}
 									onClick={go(link.hash)}
 									className="rounded-full px-3 py-1.5 text-sm text-ink-dim transition-colors duration-300 ease-glass hover:bg-ink/5 hover:text-ink"
 								>
 									{link.label}
-								</a>
+								</Link>
 							))}
 						</div>
 						<ThemeToggle className="hidden sm:flex" />
@@ -182,7 +192,7 @@ export function IslandNav() {
 								<m.a
 									key={link.hash}
 									variants={itemVariants}
-									href={link.hash}
+									href={`/${link.hash}`}
 									onClick={go(link.hash)}
 									className="font-display text-4xl font-medium text-ink"
 								>

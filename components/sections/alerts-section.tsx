@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ALERT_LINES } from "../../lib/content";
 import { Eyebrow } from "../ui/eyebrow";
 import { GlassCard } from "../ui/glass-card";
@@ -6,12 +7,19 @@ import { Reveal } from "../effects/reveal";
 
 export function AlertsSection() {
 	return (
-		<section id="alerts" className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40">
+		<section
+			id="alerts"
+			aria-labelledby="alerts-head"
+			className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40"
+		>
 			<div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
 				<div>
 					<Reveal>
 						<Eyebrow>Attention alerts</Eyebrow>
-						<h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl">
+						<h2
+							id="alerts-head"
+							className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl"
+						>
 							It speaks up when Claude blocks.
 						</h2>
 					</Reveal>
@@ -27,6 +35,14 @@ export function AlertsSection() {
 								2.5s grace window
 							</span>
 							cancels false alarms when the transcript picks back up.
+						</p>
+						<p className="mt-6 text-sm">
+							<Link
+								href="/setup"
+								className="text-accent underline underline-offset-4 transition-colors duration-300 ease-glass hover:text-ink"
+							>
+								How to set up the Claude Code Notification hook
+							</Link>
 						</p>
 					</Reveal>
 				</div>

@@ -10,20 +10,20 @@ export function Hero() {
 		<section className="flex min-h-[100dvh] items-center px-4 pb-16 pt-36 md:px-8">
 			<div className="mx-auto grid w-full max-w-6xl items-center gap-16 lg:grid-cols-2">
 				<div className="scrim rounded-[3rem] py-8 lg:pr-8">
-					<Reveal>
+					<Reveal eager>
 						<Eyebrow>Windows · Tauri v2 · Open source</Eyebrow>
 					</Reveal>
-					<Reveal delay={100}>
+					<Reveal eager delay={100}>
 						<h1 className="mt-6 font-display text-5xl font-medium tracking-tight text-balance md:text-7xl xl:text-8xl">
 							{TAGLINE.head}
 						</h1>
 					</Reveal>
-					<Reveal delay={200}>
+					<Reveal eager delay={200}>
 						<p className="mt-6 max-w-xl text-lg text-ink-dim md:text-xl">
 							{TAGLINE.sub}
 						</p>
 					</Reveal>
-					<Reveal delay={300}>
+					<Reveal eager delay={300}>
 						<div className="mt-10 flex flex-wrap items-center gap-4">
 							<CTAButton href={LINKS.releases} external>
 								Download for Windows
@@ -37,7 +37,7 @@ export function Hero() {
 						</p>
 					</Reveal>
 				</div>
-				<Reveal delay={200}>
+				<Reveal eager delay={200}>
 					<div className="relative flex flex-col items-center gap-10 lg:items-end">
 						<HeroDial className="lg:absolute lg:-right-4 lg:-top-8 lg:z-10" />
 						<PanelMock />

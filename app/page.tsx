@@ -10,14 +10,16 @@ import { OpenSourceStrip } from "@/components/sections/open-source-strip";
 import { PlusGridSection } from "@/components/sections/plus-grid-section";
 import { ProviderChain } from "@/components/sections/provider-chain";
 import { VoicesSection } from "@/components/sections/voices-section";
+import { StructuredData } from "@/components/seo/structured-data";
 
 export default function Home() {
 	return (
 		<>
+			<StructuredData />
 			<Backdrop />
 			<LiquidFilter />
 			<IslandNav />
-			<main className="relative z-10 flex-1">
+			<main id="main-content" className="relative z-10 flex-1">
 				<Hero />
 				<AlertsSection />
 				<ProviderChain />

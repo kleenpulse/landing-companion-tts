@@ -406,6 +406,32 @@
 	}
 
 	/*
+		Above-the-fold variant. Server-rendered as data-reveal="eager", so it is
+		never gated on hydration — the animation runs at first paint. Keeps the
+		LCP element off the JS critical path; the observer variant above would
+		hold the hero <h1> at opacity 0 until React booted.
+	*/
+	[data-reveal="eager"] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+		animation: reveal-in 0.8s var(--ease-pop) both;
+		animation-delay: var(--reveal-delay, 0ms);
+	}
+	@keyframes reveal-in {
+		from {
+			opacity: 0;
+			transform: translateY(4rem);
+			filter: blur(12px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+			filter: none;
+		}
+	}
+
+	/*
 		Overlay scrollbar thumb. Geometry comes from --sb-h/--sb-y, written by
 		the Scrollbar component; everything else is token-driven. Sits above the
 		grain layer (z 60) so it stays legible over the film.
@@ -496,6 +522,14 @@ body[data-menu-open] [data-scrollbar-thumb] {
 		opacity: 1;
 		transform: none;
 		filter: none;
+	}
+	/*
+		Kill the eager entrance outright. animation-duration is clamped above but
+		animation-delay is not, so `fill: both` would otherwise hold the hero at
+		opacity 0 for the stagger delay before snapping in.
+	*/
+	[data-reveal="eager"] {
+		animation: none !important;
 	}
 	.liquid {
 		filter: none !important;

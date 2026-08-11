@@ -9,6 +9,7 @@ export function ProviderChain() {
 	return (
 		<section
 			id="providers"
+			aria-labelledby="providers-head"
 			className="scroll-mt-28 px-4 py-24 md:px-8 md:py-40"
 		>
 			<div className="mx-auto w-full max-w-6xl">
@@ -17,7 +18,10 @@ export function ProviderChain() {
 						<Eyebrow>Provider chain</Eyebrow>
 					</Reveal>
 					<Reveal delay={100}>
-						<h2 className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl">
+						<h2
+							id="providers-head"
+							className="mt-6 font-display text-4xl font-medium tracking-tight text-balance md:text-5xl"
+						>
 							Four providers. Zero config required.
 						</h2>
 					</Reveal>
