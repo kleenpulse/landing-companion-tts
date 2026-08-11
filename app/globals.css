@@ -1,26 +1,547 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	color-scheme: light;
+	--ground: #eceef1;
+	--surface: #eceef1;
+	--panel: #f6f7f8;
+	--raised: #e3e7ea;
+	--hairline: #d0d5da;
+	--ink: #191d21;
+	--ink-dim: color-mix(in srgb, #191d21 72%, #f6f7f8);
+	--accent: #7e22ce;
+	--accent-hover: color-mix(in srgb, #7e22ce 85%, #191d21);
+	--on-accent: #ffffff;
+	--glass-fill: rgba(255, 255, 255, 0.55);
+	--glass-fill-deep: rgba(246, 247, 248, 0.7);
+	--glass-edge: rgba(25, 29, 33, 0.1);
+	--glass-hi: rgba(255, 255, 255, 0.85);
+	--glass-shade: rgba(25, 29, 33, 0.06);
+	--ambient: rgba(25, 29, 33, 0.14);
+	--ring-hi: rgba(255, 255, 255, 0.95);
+	--ring-lo: rgba(25, 29, 33, 0.1);
+	--shell-fill: rgba(25, 29, 33, 0.045);
+	--shell-edge: rgba(25, 29, 33, 0.08);
+	--scrim: rgba(236, 238, 241, 0.6);
+	--orb-opacity: 0.16;
+	--grain-opacity: 0.035;
+	--grain-blend: multiply;
+	--liquid-fill: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.5),
+		rgba(255, 255, 255, 0.22)
+	);
+	--liquid-edge: rgba(25, 29, 33, 0.16);
+	--liquid-shadow:
+		0 12px 32px rgba(25, 29, 33, 0.22),
+		inset 0 1px 1px rgba(255, 255, 255, 0.9),
+		inset 2px 2px 6px -2px rgba(255, 255, 255, 0.8),
+		inset -2px -2px 6px -3px rgba(25, 29, 33, 0.14),
+		inset 0 -8px 16px -8px rgba(255, 255, 255, 0.5);
+}
+
+.dark {
+	color-scheme: dark;
+	--ground: #050505;
+	--surface: #0a0b0c;
+	--panel: #0e1012;
+	--raised: #191d21;
+	--hairline: #2a2f36;
+	--ink: #e2e6e9;
+	--ink-dim: #9ba3ab;
+	--accent: #a855f7;
+	--accent-hover: #b87df9;
+	--on-accent: #0a0b0c;
+	--glass-fill: rgba(255, 255, 255, 0.08);
+	--glass-fill-deep: rgba(8, 9, 10, 0.5);
+	--glass-edge: rgba(255, 255, 255, 0.16);
+	--glass-hi: rgba(255, 255, 255, 0.2);
+	--glass-shade: rgba(0, 0, 0, 0.35);
+	--ambient: rgba(0, 0, 0, 0.45);
+	--ring-hi: rgba(255, 255, 255, 0.55);
+	--ring-lo: rgba(255, 255, 255, 0.12);
+	--shell-fill: rgba(255, 255, 255, 0.05);
+	--shell-edge: rgba(255, 255, 255, 0.1);
+	--scrim: rgba(5, 5, 5, 0.55);
+	--orb-opacity: 0.2;
+	--grain-opacity: 0.05;
+	--grain-blend: overlay;
+	--liquid-fill: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.13),
+		rgba(255, 255, 255, 0.05)
+	);
+	--liquid-edge: rgba(255, 255, 255, 0.22);
+	--liquid-shadow:
+		0 12px 32px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.28),
+		inset 2px 2px 6px -2px rgba(255, 255, 255, 0.16),
+		inset -2px -2px 6px -3px rgba(0, 0, 0, 0.4),
+		inset 0 -8px 16px -8px rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-ground: var(--ground);
+	--color-surface: var(--surface);
+	--color-panel: var(--panel);
+	--color-raised: var(--raised);
+	--color-hairline: var(--hairline);
+	--color-ink: var(--ink);
+	--color-ink-dim: var(--ink-dim);
+	--color-accent: var(--accent);
+	--color-accent-hover: var(--accent-hover);
+	--color-on-accent: var(--on-accent);
+	--font-display: var(--font-space-grotesk);
+	--font-sans: var(--font-geist-sans);
+	--font-label: var(--font-space-mono);
+	--font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+	--color-gr-magenta: #f754f1;
+	--color-gr-violet: #6d28d9;
+	--color-gr-cyan: #22d3ee;
+	--ease-glass: cubic-bezier(0.32, 0.72, 0, 1);
+	--ease-pop: cubic-bezier(0.16, 1, 0.3, 1);
+	--radius-shell: 2rem;
+	--radius-core: 1.625rem;
+	--animate-orb: orb-drift 42s var(--ease-glass) infinite alternate;
+	--animate-ring: ring-spin 16s linear infinite;
+	--animate-pulse-dial: dial-pulse 3.2s var(--ease-glass) infinite;
+	--animate-sweep: sweep 6s var(--ease-glass) infinite;
+	--animate-meter: meter 1.1s var(--ease-glass) infinite alternate;
+	--animate-caret: caret-blink 1.2s steps(1) infinite;
+
+	@keyframes orb-drift {
+		from {
+			transform: translate3d(0, 0, 0) scale(1);
+		}
+		to {
+			transform: translate3d(6%, -5%, 0) scale(1.08);
+		}
+	}
+	@keyframes ring-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes dial-pulse {
+		0%,
+		100% {
+			box-shadow: 0 0 24px 0 color-mix(in srgb, var(--accent) 35%, transparent);
+		}
+		50% {
+			box-shadow: 0 0 44px 8px
+				color-mix(in srgb, var(--accent) 50%, transparent);
+		}
+	}
+	@keyframes sweep {
+		0% {
+			transform: translateX(-160%) skewX(-14deg);
+		}
+		55%,
+		100% {
+			transform: translateX(420%) skewX(-14deg);
+		}
+	}
+	@keyframes meter {
+		from {
+			transform: scaleY(0.3);
+		}
+		to {
+			transform: scaleY(1);
+		}
+	}
+	@keyframes caret-blink {
+		0%,
+		49% {
+			opacity: 1;
+		}
+		50%,
+		100% {
+			opacity: 0.15;
+		}
+	}
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+	/*
+		Native scrollbar is replaced by the <Scrollbar /> overlay thumb. Nothing
+		reserves a gutter, so removing it costs no layout shift.
+	*/
+	html {
+		scrollbar-width: none;
+	}
+	html::-webkit-scrollbar {
+		display: none;
+	}
+	body {
+		background: var(--ground);
+		color: var(--ink);
+		font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+		overflow-x: clip;
+	}
+	::selection {
+		background: color-mix(in srgb, var(--accent) 30%, transparent);
+	}
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+}
+
+@layer components {
+	/* Double-bezel outer shell — machined tray the glass core sits in */
+	.bezel {
+		background: var(--shell-fill);
+		box-shadow: 0 0 0 1px var(--shell-edge);
+	}
+
+	/* Glass tiers. Every panel = frost + translucency + lit edge + layered depth. */
+	.glass-frost {
+		background: var(--glass-fill);
+		-webkit-backdrop-filter: blur(14px) saturate(160%);
+		backdrop-filter: blur(14px) saturate(160%);
+		border: 1px solid var(--glass-edge);
+		box-shadow:
+			0 8px 32px var(--ambient),
+			inset 0 1px 0 var(--glass-hi),
+			inset 0 -1px 0 var(--glass-shade);
+	}
+	/* Fixed/sticky surfaces only (nav pill, mobile overlay) — heavy frost tier */
+	.glass-frost-deep {
+		background: var(--glass-fill-deep);
+		-webkit-backdrop-filter: blur(24px) saturate(160%);
+		backdrop-filter: blur(24px) saturate(160%);
+		border: 1px solid var(--glass-edge);
+		box-shadow:
+			0 8px 32px var(--ambient),
+			inset 0 1px 0 var(--glass-hi),
+			inset 0 -1px 0 var(--glass-shade);
+		transform: translateZ(0);
+	}
+	/*
+		Liquid-glass slab for the island nav — white-alpha lens fill (a dark
+		fill vanishes over a dark page), thick-glass bevel insets, and a slow
+		specular sheen riding the existing sweep keyframes.
+	*/
+	.glass-liquid {
+		position: relative;
+		overflow: hidden;
+		background: var(--liquid-fill);
+		/* Safari/fallback tier: plain frost. Chromium tier: the SVG lens chain
+		   (displacement + blur + saturation) — real backdrop refraction. */
+		-webkit-backdrop-filter: blur(20px) saturate(180%);
+		backdrop-filter: blur(20px) saturate(180%);
+		backdrop-filter: url(#liquid-lens);
+		border: 1px solid var(--liquid-edge);
+		box-shadow: var(--liquid-shadow);
+		transform: translateZ(0);
+	}
+	.glass-liquid::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 33%;
+		pointer-events: none;
+		background: linear-gradient(
+			105deg,
+			transparent,
+			rgba(255, 255, 255, 0.1),
+			transparent
+		);
+		animation: sweep 9s var(--ease-glass) infinite;
+	}
+
+	/* Same optics, zero backdrop-filter cost — keeps the page blur budget ≤7 */
+	.glass-still {
+		background: var(--glass-fill);
+		border: 1px solid var(--glass-edge);
+		box-shadow:
+			0 8px 32px var(--ambient),
+			inset 0 1px 0 var(--glass-hi),
+			inset 0 -1px 0 var(--glass-shade);
+	}
+
+	/* Masked 1px specular ring — lit top-left corner, dim bottom-right */
+	.glass-ring {
+		position: relative;
+		isolation: isolate;
+	}
+	.glass-ring::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(
+			135deg,
+			var(--ring-hi),
+			transparent 40%,
+			transparent 60%,
+			var(--ring-lo)
+		);
+		-webkit-mask:
+			linear-gradient(#000 0 0) content-box,
+			linear-gradient(#000 0 0);
+		-webkit-mask-composite: xor;
+		mask:
+			linear-gradient(#000 0 0) content-box,
+			linear-gradient(#000 0 0);
+		mask-composite: exclude;
+		pointer-events: none;
+	}
+
+	/* Card hover: lift on the shell, brighter highlight on the core. Never touches blur. */
+	.glass-hover {
+		transition: transform 0.4s var(--ease-glass);
+	}
+	.glass-hover:hover {
+		transform: translateY(-4px);
+	}
+	.glass-hover .glass-frost,
+	.glass-hover .glass-still {
+		transition: box-shadow 0.4s var(--ease-glass);
+	}
+	.glass-hover:hover .glass-frost,
+	.glass-hover:hover .glass-still {
+		box-shadow:
+			0 16px 48px var(--ambient),
+			inset 0 1px 0 var(--ring-hi),
+			inset 0 -1px 0 var(--glass-shade);
+	}
+
+	/* Contrast floor under text sitting over the orb field */
+	.scrim {
+		background: radial-gradient(
+			70% 70% at 50% 50%,
+			var(--scrim),
+			transparent 78%
+		);
+	}
+
+	/* The product's signature grainient — magenta → violet → cyan */
+	.grainient {
+		background: conic-gradient(
+			from 0deg,
+			#f754f1,
+			#6d28d9 40%,
+			#22d3ee 70%,
+			#f754f1 100%
+		);
+	}
+
+	/* Liquid-glass refraction consumer — exactly ONE element on the page */
+	.liquid {
+		filter: url(#liquid-glass);
+	}
+
+	/* Single fixed anti-banding grain layer, above everything, hit-through */
+	.grain {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 60;
+		opacity: var(--grain-opacity);
+		mix-blend-mode: var(--grain-blend);
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+
+	/* Hotkey caps */
+	.keycap {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2rem;
+		height: 2rem;
+		padding: 0 0.5rem;
+		border-radius: 0.5rem;
+		background: var(--raised);
+		border: 1px solid var(--hairline);
+		box-shadow:
+			inset 0 1px 0 var(--glass-hi),
+			0 1px 2px var(--ambient);
+		font-family: var(--font-geist-mono), monospace;
+		font-size: 0.75rem;
+		color: var(--ink);
+	}
+
+	/* Specular glint that sweeps across the hero panel */
+	.sweep {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 33%;
+		pointer-events: none;
+		background: linear-gradient(
+			105deg,
+			transparent,
+			rgba(255, 255, 255, 0.07),
+			transparent
+		);
+	}
+
+	/* Scroll-entry reveal — heavy fade-up resolving from blur */
+	[data-reveal] {
+		opacity: 0;
+		transform: translateY(4rem);
+		filter: blur(12px);
+		transition:
+			opacity 0.8s var(--ease-pop),
+			transform 0.8s var(--ease-pop),
+			filter 0.8s var(--ease-pop);
+		transition-delay: var(--reveal-delay, 0ms);
+	}
+	[data-reveal="in"] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+
+	/*
+		Overlay scrollbar thumb. Geometry comes from --sb-h/--sb-y, written by
+		the Scrollbar component; everything else is token-driven. Sits above the
+		grain layer (z 60) so it stays legible over the film.
+	*/
+	[data-scrollbar-thumb] {
+		position: fixed;
+		top: 0;
+		right: 4px;
+		z-index: 70;
+		width: 6px;
+		height: var(--sb-h, 40px);
+		translate: 0 var(--sb-y, 8px);
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--ink) 28%, transparent);
+		box-shadow: 0 0 0 1px var(--hairline);
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity 0.22s var(--ease-glass),
+			width 0.15s var(--ease-glass),
+			background-color 0.15s var(--ease-glass);
+	}
+	[data-scrollbar-thumb][data-active="false"] {
+		display: none;
+	}
+	/* Only grabbable once visible — an invisible thumb must not eat edge clicks. */
+	[data-scrollbar-thumb][data-visible="true"] {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	[data-scrollbar-thumb]:hover {
+		width: 8px;
+		background: color-mix(in srgb, var(--ink) 45%, transparent);
+	}
+	[data-scrollbar-thumb][data-dragging="true"] {
+		width: 8px;
+		background: var(--accent);
+	}
+}
+
+/*
+	While the mobile menu is open (island-nav sets data-menu-open on body),
+	freeze the orb drift so the overlay's fullscreen backdrop blur isn't
+	re-sampling a moving, pre-blurred background every frame. Un-layered to
+	beat the utilities layer.
+*/
+body[data-menu-open] .animate-orb {
+	animation-play-state: paused;
+}
+
+/* Scroll is locked behind the menu overlay — the thumb goes with it. */
+body[data-menu-open] [data-scrollbar-thumb] {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/*
+	Accessibility overrides — intentionally un-layered so they defeat every
+	layered rule (theme/base/components/utilities) regardless of order.
+*/
+@media (prefers-reduced-transparency: reduce) {
+	.glass-frost,
+	.glass-frost-deep,
+	.glass-still,
+	.glass-liquid {
+		background: var(--panel);
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+		border-color: var(--hairline);
+	}
+	.glass-liquid::after {
+		display: none;
+	}
+	.grain {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+	.liquid {
+		filter: none !important;
+	}
+	.sweep {
+		display: none;
+	}
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+	.glass-frost,
+	.glass-frost-deep,
+	.glass-liquid {
+		background: color-mix(in srgb, var(--panel) 92%, transparent);
+	}
+}
+
+@media (scripting: none) {
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+}
+
+/*
+	Animated theme toggle (View Transitions). The toggle wraps the theme swap in
+	document.startViewTransition() and animates a clip-path reveal of the new
+	theme expanding from the button — see lib/theme-transition.ts. Deliberately
+	un-layered so no @layer can override the pseudo-element rules. The JS is
+	inert without this block: it only sets --theme-vt-* / data-theme-vt, which
+	these rules consume.
+*/
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none; /* kill the default cross-fade */
+	mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+	z-index: 1; /* old theme stays underneath */
+}
+::view-transition-new(root) {
+	z-index: 2; /* new theme reveals on top */
+}
+/* Pin the collapsed clip-path until the JS clip-path animation runs so Firefox
+	does not paint the new theme unclipped between snapshot and animation start. */
+[data-theme-vt="active"]::view-transition-new(root) {
+	clip-path: var(--theme-vt-clip-from);
 }
