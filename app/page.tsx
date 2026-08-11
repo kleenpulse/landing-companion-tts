@@ -7,6 +7,7 @@ import { BentoGrid } from "@/components/sections/bento-grid";
 import { FinalCTA } from "@/components/sections/final-cta";
 import { Hero } from "@/components/sections/hero";
 import { OpenSourceStrip } from "@/components/sections/open-source-strip";
+import { PlusGridSection } from "@/components/sections/plus-grid-section";
 import { ProviderChain } from "@/components/sections/provider-chain";
 import { VoicesSection } from "@/components/sections/voices-section";
 
@@ -24,6 +25,7 @@ export default function Home() {
 				<VoicesSection />
 				<OpenSourceStrip />
 				<FinalCTA />
+				<PlusGridSection />
 			</main>
 			<Footer />
 		</>

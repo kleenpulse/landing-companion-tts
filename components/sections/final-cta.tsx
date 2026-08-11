@@ -5,7 +5,7 @@ import { Reveal } from "../effects/reveal";
 
 export function FinalCTA() {
 	return (
-		<section className="px-4 py-24 md:px-8 md:py-40">
+		<section className="px-4 pt-24 pb-10 md:px-8 md:pt-40 md:pb-16">
 			<div className="mx-auto w-full max-w-3xl">
 				<Reveal>
 					<GlassCard
@@ -24,9 +24,6 @@ export function FinalCTA() {
 							</CTAButton>
 							<CTAButton href={LINKS.repo} external variant="ghost">
 								GitHub
-							</CTAButton>
-							<CTAButton href={LINKS.coffee} external variant="ghost">
-								Buy me a coffee
 							</CTAButton>
 						</div>
 						<p className="mt-8 font-label text-[10px] uppercase tracking-[0.2em] text-ink-dim">
