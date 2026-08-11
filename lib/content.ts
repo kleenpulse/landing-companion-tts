@@ -4,6 +4,7 @@
 */
 
 export const LINKS = {
+	site: "https://landing-companion-tts.vercel.app",
 	repo: "https://github.com/kleenpulse/companion-tts",
 	releases: "https://github.com/kleenpulse/companion-tts/releases",
 	license: "https://github.com/kleenpulse/companion-tts/blob/main/LICENSE",

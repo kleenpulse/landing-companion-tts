@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Space_Mono } from "next/font/google";
+import { LINKS } from "@/lib/content";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { SmoothScroll } from "@/components/effects/smooth-scroll";
 import { Scrollbar } from "@/components/effects/scrollbar";
@@ -28,15 +29,20 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+	metadataBase: new URL(LINKS.site),
 	title: "Companion TTS — Hear Claude Code work",
 	description:
 		"Hear Claude Code work. A floating companion that speaks agent output aloud and pings you when it needs you.",
+	alternates: {
+		canonical: "/",
+	},
 	openGraph: {
 		title: "Companion TTS — Hear Claude Code work",
 		description:
 			"A floating companion that speaks agent output aloud and pings you when it needs you.",
 		type: "website",
 		siteName: "Companion TTS",
+		url: "/",
 	},
 	twitter: {
 		card: "summary",
